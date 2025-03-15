@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
     "start": "webpack serve --open --config webpack.dev.js",
-    "build": "webpack build --config webpack.prod.js"
+    "build": "webpack build --config webpack.prod.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "keywords": [],
   "author": "sub-pr1me",
@@ -14,6 +16,7 @@
     "css-loader": "^7.1.2",
     "css-minimizer-webpack-plugin": "^7.0.0",
     "html-webpack-plugin": "^5.6.0",
+    "jest": "^29.7.0",
     "style-loader": "^4.0.0",
     "webpack": "^5.95.0",
     "webpack-cli": "^5.1.4",
