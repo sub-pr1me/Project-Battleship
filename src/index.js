@@ -74,7 +74,7 @@ function Gameboard(name) {
         };
     };
 
-    function checkIfAllShipsAreSunk() {
+    function checkIfAllSunk() {
         let allSunk = 1;
         for (let item of fleet) {
             if (!item[0].sunk) {
@@ -92,13 +92,13 @@ function Gameboard(name) {
         board,
         name,
         addShip,
-        receiveAttack
+        receiveAttack,
+        checkIfAllSunk
     };
 };
 
 function Player(name, callback, type) {
-    const data = callback(name);
-    
+    const data = callback(name);    
     return {
         type,
         data
