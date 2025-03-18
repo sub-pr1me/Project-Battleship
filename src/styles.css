@@ -47,3 +47,68 @@ table {
 }
 
 /* //////////////////////////////////////////////////////// */
+
+* {
+	outline: 1px yellow solid;
+	color: aliceblue;
+}
+
+div {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#container {
+	flex-direction: column;
+}
+
+#title {
+	width: 100vw;
+	height: 10vh;
+	font-size:7vh;
+	color: pink;
+}
+
+#names {
+	width: 100vw;
+	height: 10vh;
+	justify-content: center;
+	gap: 120px;
+	font-size: 4vh;
+}
+
+.name {
+	min-width: 400px;
+	max-width: 400px;
+	margin-bottom: -40px;
+}
+
+#boardzone {
+	width: 100vw;
+	height: 45vh;
+	justify-content: center;
+	gap: 120px;
+}
+
+.board {
+	width: 400px;
+	height: 40vh;
+	min-width: 400px;
+	min-height: 400px;
+	flex-wrap: wrap;
+	outline: 2px rgb(255, 192, 203) solid;
+}
+
+.cell {
+	width: 40px;
+	height: 4vh;
+	margin: 0px;
+	padding: 0px;
+	outline: 1px rgb(255, 192, 203, 0.25) solid;
+}
+
+#control-panel {
+	width: 100vw;
+	height: 35vh;
+}
