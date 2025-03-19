@@ -17,7 +17,7 @@ function Gameboard(name) {
     for (let i=0; i<size; i++) {
         board.push([])
         for (let k=0; k<size; k++) {
-            board[i].push([0]);// 0-empty, 1-ship, 2-hit 3-miss //
+            board[i].push(0);// 0-empty, 1-ship, 2-hit 3-miss //
         };
     };
 
