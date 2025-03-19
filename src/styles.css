@@ -61,6 +61,8 @@ div {
 
 #container {
 	flex-direction: column;
+	width: 100vw;
+	height: 100vh;
 }
 
 #title {
@@ -93,7 +95,30 @@ div {
 	min-height: 400px;
 	max-height: 400px;
 	justify-content: center;
-	gap: 120px;
+	gap: 10px
+}
+
+#btn_container {
+	max-width: 100px;
+	min-width: 100px;
+	min-height: 50px;
+	max-height: 50px;
+}
+
+button {
+	max-width: 100px;
+	min-width: 100px;
+	min-height: 50px;
+	max-height: 50px;
+	color: pink;
+	background-color: #666666;
+	border: pink 2px solid;
+	font-size: 24px;
+	font-weight: 900;
+}
+
+button:hover {
+	background-color: #555555;
 }
 
 .board {
@@ -116,5 +141,5 @@ div {
 
 #control-panel {
 	width: 100vw;
-	height: 35vh;
+	height: 34vh;
 }
