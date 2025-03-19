@@ -30,7 +30,7 @@ function Gameboard(name) {
         ship.push(Ship(size));
         
         if (board[x][y] == 0) {
-            if (!orientation && x+size < 10) {
+            if (!orientation && x+size <= 10) {
                 board[x][y] = 1;
                 let coorString = `${x}${y}`;
                 coordinates.push(coorString);
@@ -39,7 +39,7 @@ function Gameboard(name) {
                     coorString = `${x+i}${y}`;
                     coordinates.push(coorString);
                 };
-            } else if (orientation && y+size < 10){
+            } else if (orientation && y+size <= 10){
                 board[x][y] = 1;
                 let coorString = `${x}${y}`;
                 coordinates.push(coorString);
