@@ -1,108 +1,35 @@
-// import "./styles.css";
+import "./styles.css";
 
-function Ship(length) {
-    return {
-        length,
-        hits: 0,
-        sunk: false,
-        hit: function() {
-            this.hits++;
-            if (this.hits >= this.length) {this.sunk = true};
-        }
-    };
-};
+import { Ship } from "./scripts.js";
+import { Gameboard } from "./scripts.js";
+import { Player } from "./scripts.js";
+import { obj } from "./DOM.js";
 
-function Gameboard(name) {
-    let fleet = [];
-    let board = [];
-    let size = 10;
-    for (let i=0; i<size; i++) {
-        board.push([])
-        for (let k=0; k<size; k++) {
-            board[i].push([0]);// 0-empty, 1-ship, 2-hit 3-miss //
-        };
-    };
+//start the game
+let p1;
+let p2;
+let whosTurn = 'one';
+obj.start.addEventListener('click', () => {
+    obj.btnDiv.removeChild(obj.start);
+    //  prompt players names & if human/bot (predetermined for now)
+    obj.nameOne.textContent = 'PLAYER-1';
+    obj.nameTwo.textContent = 'PLAYER-2';
+    let p1type = 'human';
+    let p2type = 'human';
+    // create players boards
+    p1 = Player(obj.nameOne.textContent, p1type);
+    p2 = Player(obj.nameTwo.textContent, p2type);
+    //  place ships
 
-    function addShip(size,x,y,orientation) {        
-        
-        //orientation: 0-horizontal, 1-vertical //
+    p1.data.addShip(3,7,5,0);
+    p1.data.addShip(2,5,6,0); //this should fail (and it does)
 
-        let ship = [];
-        let coordinates = [];
-        ship.push(Ship(size));
-        
-        if (board[x][y] == 0) {
-            if (!orientation && x+size < 10) {
-                board[x][y] = 1;
-                let coorString = `${x}${y}`;
-                coordinates.push(coorString);
-                for (let i=1; i<size; i++) {
-                    board[x+i][y] = 1;
-                    coorString = `${x+i}${y}`;
-                    coordinates.push(coorString);
-                };
-            } else if (orientation && y+size < 10){
-                board[x][y] = 1;
-                let coorString = `${x}${y}`;
-                coordinates.push(coorString);
-                for (let i=1; i<size; i++) {
-                    board[x][y+i] = 1;
-                    coorString = `${x}${y+i}`;
-                    coordinates.push(coorString);
-                };
-            } else {
-                console.log("CAN'T PLACE SHIP HERE");
-            };
-        };
-        ship.push(coordinates);
-        fleet.push(ship);
-    };
+    obj.boardRefresh(p1, whosTurn);
+});
 
-    function receiveAttack(x,y) {
-        if (board[x][y] == 0) {
-            board[x][y] = 3;
-        } else if (board[x][y] == 1) {
-            board[x][y] = 2;
-            let coorString = `${x}${y}`;
-            for (let item of fleet) {
-                if (item[1].includes(coorString)) {
-                    item[0].hit();
-                    checkIfAllShipsAreSunk();
-                    break;
-                };
-            };
-        };
-    };
-
-    function checkIfAllSunk() {
-        let allSunk = 1;
-        for (let item of fleet) {
-            if (!item[0].sunk) {
-                allSunk--;
-                break;
-            };
-        };
-        if (allSunk) {
-            console.log("ALL SHIPS HAVE BEEN SUNK");
-        };
-    };
-
-    return {
-        fleet,
-        board,
-        name,
-        addShip,
-        receiveAttack,
-        checkIfAllSunk
-    };
-};
-
-function Player(name, callback, type) {
-    const data = callback(name);    
-    return {
-        type,
-        data
-    };
-};
-
-export { Ship, Gameboard, Player };
+//player-1 makes a move
+//  player-2 receives attack
+//  if hit => paint accordingly
+//  if miss => paint accordingly
+//  hide player-1 board
+//  switch turn to player-2

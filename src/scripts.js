@@ -17,29 +17,149 @@ function Gameboard(name) {
     for (let i=0; i<size; i++) {
         board.push([])
         for (let k=0; k<size; k++) {
-            board[i].push(0);// 0-empty, 1-ship, 2-hit 3-miss //
+            board[i].push(0);// 0-empty, 1-ship, 2-hit 3-miss 9-processing//
         };
     };
 
-    function addShip(size,x,y,orientation) {        
-        
-        //orientation: 0-horizontal, 1-vertical //
+    function determineLimits(x,y) {
+        let limits = {};
+        if (x === 0) {limits.left = true};
+        if (x === 9) {limits.right = true};
+        if (y === 0) {limits.top = true};
+        if (y === 9) {limits.bottom = true};
+        return limits;
+    };
+
+    function checkPlacementValidity(x,y) {
+        if (board[x][y]) {
+            return false;
+        };
+        let limits = determineLimits(x,y);
+        if (limits.top && !limits.left && !limits.right) {
+            if (board[x+1][y] === 1
+                || board[x+1][y+1] === 1
+                || board[x-1][y] === 1
+                || board[x-1][y+1] === 1
+                || board[x][y+1] === 1) {
+                return false;
+            };
+        };
+        if (limits.right && !limits.top && !limits.bottom) {
+            if (board[x-1][y] === 1
+                || board[x-1][y+1] === 1
+                || board[x-1][y-1] === 1
+                || board[x][y+1] === 1
+                || board[x][y-1] === 1) {
+                console.log(board[x-1][y]);
+                return false;
+            };
+        };
+        if (limits.bottom && !limits.left && !limits.right) {
+            if (board[x+1][y] === 1
+                || board[x+1][y-1] === 1
+                || board[x-1][y] === 1
+                || board[x-1][y-1] === 1
+                || board[x][y-1] === 1) {
+                return false;
+            };
+        };
+        if (limits.left && !limits.top && !limits.bottom) {
+            if (board[x+1][y] === 1
+                || board[x+1][y+1] === 1
+                || board[x+1][y-1] === 1
+                || board[x][y+1] === 1
+                || board[x][y-1] === 1) {
+                return false;
+            };
+        };
+        if (limits.top && limits.left) {
+            if (board[x+1][y] === 1
+                || board[x+1][y+1] === 1
+                || board[x][y+1] === 1) {
+                return false;
+            };
+        };        
+        if (limits.top && limits.right) {
+            if (board[x-1][y] === 1
+                || board[x-1][y+1] === 1
+                || board[x][y+1] === 1) {
+                return false;
+            };
+        };    
+        if (limits.bottom && limits.left) {
+            if (board[x+1][y] === 1
+                || board[x+1][y-1] === 1
+                || board[x][y-1] === 1) {  
+                return false;
+            };
+        };    
+        if (limits.bottom && limits.right) {
+            if (board[x-1][y] === 1
+                || board[x-1][y-1] === 1
+                || board[x][y-1] === 1) {
+                return false;
+            };
+        };
+        if (!limits.top && !limits.bottom && !limits.left && !limits.right) {
+            if (board[x+1][y] === 1
+                || board[x+1][y+1] === 1
+                || board[x+1][y-1] === 1
+                || board[x-1][y] === 1
+                || board[x-1][y+1] === 1
+                || board[x-1][y-1] === 1
+                || board[x][y+1] === 1
+                || board[x][y-1] === 1) {
+                return false;
+            };
+        };
+        return true;
+    };
+
+    function addShip(size,x,y,orientation) { //orientation: 0-horizontal, 1-vertical //
 
         let ship = [];
         let coordinates = [];
         ship.push(Ship(size));
-        
-        if (board[x][y] == 0) {
-            if (!orientation && x+size <= 10) {
+
+        let valid = 0;
+        if (!orientation && x+size <= 10) {
+            if (checkPlacementValidity(x,y)) {
+                valid++;
+            } else {
+                console.log(`CAN'T PLACE SHIP ON ${x}x${y}`);
+            };
+            for (let i=1; i<size; i++) {
+                if (checkPlacementValidity(x+i,y)) {
+                    valid++;
+                } else {
+                    console.log(`CAN'T PLACE SHIP ON ${x+i}x${y}`);
+                };
+            };  
+        } else if (orientation && y+size <= 10) {
+            if (checkPlacementValidity(x,y)) {
+                valid++;
+            } else {
+                console.log(`CAN'T PLACE SHIP ON ${x}x${y}`);
+            };
+            for (let i=1; i<size; i++) {
+                if (checkPlacementValidity(x,y+i)) {
+                    valid++;
+                } else {
+                    console.log(`CAN'T PLACE SHIP ON ${x}x${y+i}`);
+                };
+            };  
+        };
+        if (valid === size) {
+            if (!orientation) {
                 board[x][y] = 1;
                 let coorString = `${x}${y}`;
                 coordinates.push(coorString);
                 for (let i=1; i<size; i++) {
                     board[x+i][y] = 1;
                     coorString = `${x+i}${y}`;
-                    coordinates.push(coorString);
+                    coordinates.push(coorString);                                        
                 };
-            } else if (orientation && y+size <= 10){
+            } else if (orientation){
                 board[x][y] = 1;
                 let coorString = `${x}${y}`;
                 coordinates.push(coorString);
@@ -48,8 +168,6 @@ function Gameboard(name) {
                     coorString = `${x}${y+i}`;
                     coordinates.push(coorString);
                 };
-            } else {
-                console.log("CAN'T PLACE SHIP HERE");
             };
         };
         ship.push(coordinates);
