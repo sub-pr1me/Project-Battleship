@@ -139,6 +139,18 @@ button:hover {
 	outline: 1px rgb(255, 192, 203, 0.25) solid;
 }
 
+.ship {
+	background-color: rgb(255, 192, 203, 0.33);
+}
+
+.hit {
+	background-color: darkred;
+}
+
+.miss {
+	background-color: black;
+}
+
 #control-panel {
 	width: 100vw;
 	height: 34vh;
