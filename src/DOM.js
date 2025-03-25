@@ -3,7 +3,7 @@ import { Gameboard } from "./scripts.js";
 import { Player } from "./scripts.js";
 
 const obj = (function () {
-    return{
+    return {
         start: document.getElementById('start'),
         btnDiv: document.getElementById('btn_container'),
         nameOne: document.getElementById('p1'),
@@ -37,6 +37,27 @@ const obj = (function () {
                     };
                 };  
             };
+        },
+
+        receiveAttack: function(x,y,attacker,victim) {
+            let board = victim.data.board;
+            if (board[x][y] === 0) {
+                board[x][y] = 3;
+                if (attacker === 'one') return 'two';
+                if (attacker === 'two') return 'one';
+            } else if (board[x][y] === 1) {
+                board[x][y] = 2;
+                for (let item of victim.data.fleet) {
+                    if (item[1].includes(`${x}${y}`)) {
+                        item[0].hit();
+                        if (victim.data.checkIfAllSunk()) {
+                            return 0;  
+                        };                        
+                    };
+                };                
+            };
+            if (attacker === 'one') return 'one';
+            if (attacker === 'two') return 'two';
         }
     };
 })();

@@ -1,3 +1,5 @@
+import { obj } from "./DOM.js";
+
 function Ship(length) {
     return {
         length,
@@ -17,7 +19,7 @@ function Gameboard(name) {
     for (let i=0; i<size; i++) {
         board.push([])
         for (let k=0; k<size; k++) {
-            board[i].push(0);// 0-empty, 1-ship, 2-hit 3-miss 9-processing//
+            board[i].push(0);// 0-empty, 1-ship, 2-hit 3-miss
         };
     };
 
@@ -115,7 +117,7 @@ function Gameboard(name) {
         return true;
     };
 
-    function addShip(size,x,y,orientation) { //orientation: 0-horizontal, 1-vertical //
+    function addShip(size,x,y,orientation) { //orientation: 0-horizontal, 1-vertical
 
         let ship = [];
         let coordinates = [];
@@ -174,22 +176,6 @@ function Gameboard(name) {
         fleet.push(ship);
     };
 
-    function receiveAttack(x,y) {
-        if (board[x][y] == 0) {
-            board[x][y] = 3;
-        } else if (board[x][y] == 1) {
-            board[x][y] = 2;
-            let coorString = `${x}${y}`;
-            for (let item of fleet) {
-                if (item[1].includes(coorString)) {
-                    item[0].hit();
-                    checkIfAllShipsAreSunk();
-                    break;
-                };
-            };
-        };
-    };
-
     function checkIfAllSunk() {
         let allSunk = 1;
         for (let item of fleet) {
@@ -199,7 +185,8 @@ function Gameboard(name) {
             };
         };
         if (allSunk) {
-            console.log("ALL SHIPS HAVE BEEN SUNK");
+            console.log(`ALL ${this.name}'S SHIPS HAVE BEEN SUNK`);
+            return true;
         };
     };
 
@@ -208,7 +195,6 @@ function Gameboard(name) {
         board,
         name,
         addShip,
-        receiveAttack,
         checkIfAllSunk
     };
 };
