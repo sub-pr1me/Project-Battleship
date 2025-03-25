@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
-  "type": "module",
   "scripts": {
     "start": "webpack serve --open --config webpack.dev.js",
     "build": "webpack build --config webpack.prod.js",

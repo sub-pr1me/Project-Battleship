@@ -1,5 +1,5 @@
-import { Ship } from "./src/index.js";
-import { Gameboard } from "./src/index.js";
+import { Ship } from "./src/scripts.js";
+import { Gameboard } from "./src/scripts.js";
 
 test('Ship sinking logic', () => {
     let quad = Ship(4);
