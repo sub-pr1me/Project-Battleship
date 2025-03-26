@@ -62,12 +62,13 @@ const obj = (function () {
                 if (item[1].includes(`${x}${y}`)) {
                     if (item[0].sunk) {
                         for (let element of item[1]) {
-                            if (y > 0 && board[parseInt(element[0])][parseInt(element[1])-1] == 0) board[parseInt(element[0])][parseInt(element[1])-1] = 4;
-                            if (x < 9 && board[parseInt(element[0])+1][parseInt(element[1])] == 0) board[parseInt(element[0])+1][parseInt(element[1])] = 4;
-                            if (y < 9 && board[parseInt(element[0])][parseInt(element[1])+1] == 0) board[parseInt(element[0])][parseInt(element[1])+1] = 4;
-                            if (x > 0 && board[parseInt(element[0])-1][parseInt(element[1])] == 0) board[parseInt(element[0])-1][parseInt(element[1])] = 4;
-                        };
-                        
+                            let h = parseInt(element[0]);
+                            let v = parseInt(element[1]);
+                            if (y > 0 && v > 0 && board[h][v-1] == 0) board[h][v-1] = 4;
+                            if (x < 9 && h < 9 && board[h+1][v] == 0) board[h+1][v] = 4;
+                            if (y < 9 && v < 9 && board[h][v+1] == 0) board[h][v+1] = 4;
+                            if (x > 0 && h > 0 && board[h-1][v] == 0) board[h-1][v] = 4;
+                        };                        
                     };
                 };
             };
@@ -80,17 +81,17 @@ const obj = (function () {
                 if (attacker === 'one') return 'two';
                 if (attacker === 'two') return 'one';
             } else if (board[x][y] === 1) {
-                board[x][y] = 2;                
+                board[x][y] = 2;
                 for (let item of victim.data.fleet) {
                     if (item[1].includes(`${x}${y}`)) {
                         item[0].hit();
                         if (victim.data.checkIfAllSunk()) {
-                            return 0;  
-                        };                        
+                            return 0;
+                        };
                     };
                 };                
             };
-            if (board[x][y] === 4 || board[x][y] === 3) {
+            if (board[x][y] === 4 || board[x][y] === 3 && board[x][y] !== 2) {
                 return attacker;
             };
             this.revealAdjacent(x,y,victim);
