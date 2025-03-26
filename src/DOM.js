@@ -32,6 +32,15 @@ const obj = (function () {
                             this.cells.forEach((cell) => {
                                 if (cell.id === `${tag}${h}${v}`) {
                                     cell.classList.add('miss');
+                                    cell.textContent = '•';
+                                    cell.classList.remove('unopened');
+                                };
+                            });                            
+                        } else if (board[h][v] === 4) {
+                            this.cells.forEach((cell) => {
+                                if (cell.id === `${tag}${h}${v}`) {
+                                    cell.classList.add('empty');
+                                    cell.textContent = '•';
                                     cell.classList.remove('unopened');
                                 };
                             });                            
@@ -41,14 +50,37 @@ const obj = (function () {
             };
         },
 
-        receiveAttack: function(x,y,attacker,victim) {
+        revealAdjacent: function (x,y,victim) {
+            let board = victim.data.board;
+            //diagonal adjacent
+            if (x > 0 && y > 0 && board[parseInt(x)-1][parseInt(y)-1] == 0) board[parseInt(x)-1][parseInt(y)-1] = 4;            
+            if (x < 9 && y > 0 && board[parseInt(x)+1][parseInt(y)-1] == 0) board[parseInt(x)+1][parseInt(y)-1] = 4;
+            if (x < 9 && y < 9 && board[parseInt(x)+1][parseInt(y)+1] == 0) board[parseInt(x)+1][parseInt(y)+1] = 4;
+            if (x > 0 && y < 9 && board[parseInt(x)-1][parseInt(y)+1] == 0) board[parseInt(x)-1][parseInt(y)+1] = 4;
+            //non-diagonal adjacent
+            for (let item of victim.data.fleet) {
+                if (item[1].includes(`${x}${y}`)) {
+                    if (item[0].sunk) {
+                        for (let element of item[1]) {
+                            if (y > 0 && board[parseInt(element[0])][parseInt(element[1])-1] == 0) board[parseInt(element[0])][parseInt(element[1])-1] = 4;
+                            if (x < 9 && board[parseInt(element[0])+1][parseInt(element[1])] == 0) board[parseInt(element[0])+1][parseInt(element[1])] = 4;
+                            if (y < 9 && board[parseInt(element[0])][parseInt(element[1])+1] == 0) board[parseInt(element[0])][parseInt(element[1])+1] = 4;
+                            if (x > 0 && board[parseInt(element[0])-1][parseInt(element[1])] == 0) board[parseInt(element[0])-1][parseInt(element[1])] = 4;
+                        };
+                        
+                    };
+                };
+            };
+        },
+
+        receiveAttack: function (x,y,attacker,victim) {
             let board = victim.data.board;
             if (board[x][y] === 0) {
-                board[x][y] = 3;
+                board[x][y] = 3;                
                 if (attacker === 'one') return 'two';
                 if (attacker === 'two') return 'one';
             } else if (board[x][y] === 1) {
-                board[x][y] = 2;
+                board[x][y] = 2;                
                 for (let item of victim.data.fleet) {
                     if (item[1].includes(`${x}${y}`)) {
                         item[0].hit();
@@ -58,6 +90,7 @@ const obj = (function () {
                     };
                 };                
             };
+            this.revealAdjacent(x,y,victim);
             if (attacker === 'one') return 'one';
             if (attacker === 'two') return 'two';
         }
