@@ -25,12 +25,14 @@ const obj = (function () {
                             this.cells.forEach((cell) => {
                                 if (cell.id === `${tag}${h}${v}`) {
                                     cell.classList.add('hit');
+                                    cell.classList.remove('unopened');
                                 };
                             });
                         } else if (board[h][v] === 3) {
                             this.cells.forEach((cell) => {
                                 if (cell.id === `${tag}${h}${v}`) {
                                     cell.classList.add('miss');
+                                    cell.classList.remove('unopened');
                                 };
                             });                            
                         };

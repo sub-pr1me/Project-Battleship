@@ -41,8 +41,12 @@ obj.start.addEventListener('click', () => {
     p2.data.addShip(1,0,0,0);
     p2.data.addShip(1,6,3,0);
 
+    obj.cells.forEach((cell) => {
+        if (!cell.id.includes(whosTurn)) {
+            cell.classList.add('unopened');
+        };
+    });
     obj.boardRefresh(p1, 'one');
-    obj.boardRefresh(p2, 'two');
 });
 
 obj.cells.forEach((cell) => {

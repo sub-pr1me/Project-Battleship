@@ -155,3 +155,12 @@ button:hover {
 	width: 100vw;
 	height: 34vh;
 }
+
+.unopened {
+	background-color: #666666;
+	outline: 2px rgb(255, 192, 203, 0.25) solid;
+}
+
+.hidden {
+	background-color: #666666;
+}
