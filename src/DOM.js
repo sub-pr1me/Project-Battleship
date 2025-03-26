@@ -90,9 +90,11 @@ const obj = (function () {
                     };
                 };                
             };
+            if (board[x][y] === 4 || board[x][y] === 3) {
+                return attacker;
+            };
             this.revealAdjacent(x,y,victim);
-            if (attacker === 'one') return 'one';
-            if (attacker === 'two') return 'two';
+            return attacker;
         }
     };
 })();
