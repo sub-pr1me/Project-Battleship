@@ -127,7 +127,7 @@ button:hover {
 	min-width: 400px;
 	max-height: 40vh;
 	flex-wrap: wrap;
-	outline: 2px rgb(255, 192, 203) solid;
+	outline: 1px rgb(255, 192, 203) solid;
 }
 
 .cell {
@@ -144,16 +144,16 @@ button:hover {
 }
 
 .hit {
-	background-color: darkred;
+	background-color: #875cee;
 }
 
 .miss{
-	background-color: #444444;
+	background-color: #555555;
 	color: #bdbdbd;
 }
 
 .empty{
-	background-color: #444444;
+	background-color: #555555;
 	color: #727272;
 }
 
@@ -173,6 +173,6 @@ button:hover {
 
 .activeBoard{
 	outline: none;
-    border-color: #9ecaed;
-    box-shadow: 0 0 10px #9ecaed;
+    border-color: #e09eed;
+    box-shadow: 0 0 20px #e09eed;
 }
