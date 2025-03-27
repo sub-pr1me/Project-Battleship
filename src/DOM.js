@@ -80,6 +80,13 @@ const obj = (function () {
             let board = victim.data.board;
             if (board[x][y] === 0) {
                 board[x][y] = 3;
+                for (let item of this.cells) {
+                    if (!item.classList.contains('hit')
+                    && !item.classList.contains('miss')
+                    && !item.classList.contains('empty')) {
+                        item.classList.toggle('unopened');
+                    };
+                };
                 this.boardP1.classList.toggle('activeBoard');
                 this.boardP2.classList.toggle('activeBoard');
                 if (attacker === 'one') return 'two';

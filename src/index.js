@@ -2,7 +2,6 @@ import "./styles.css";
 import { Player } from "./scripts.js";
 import { obj } from "./DOM.js";
 
-
 obj.start.addEventListener('click', () => {
     //clear previous game data
     for (let item of obj.cells) {
@@ -13,15 +12,13 @@ obj.start.addEventListener('click', () => {
         item.classList.remove('empty');
         item.textContent = '';
     };
-    //initialize the game
-    let whosTurn = 'one';
-
     //start the game
+        let whosTurn = 'one';
         //  prompt players names & if human/bot (predetermined for now)
     obj.nameOne.textContent = 'PLAYER-1';
     obj.nameTwo.textContent = 'COMPUTER';
     let p1type = 'human';
-    let p2type = 'human';
+    let p2type = 'computer';
         // create players boards
     let p1 = Player(obj.nameOne.textContent, p1type);
     let p2 = Player(obj.nameTwo.textContent, p2type);
@@ -51,19 +48,44 @@ obj.start.addEventListener('click', () => {
 
     obj.boardRefresh(p1, 'one');
     obj.boardP2.classList.add('activeBoard');
+
+    //first computer move logic
+    
+    if (p1.type === 'computer' && whosTurn === 'one') {
+        whosTurn = obj.receiveAttack(Math.floor(Math.random()*10), Math.floor(Math.random()*10), whosTurn, p2);
+        obj.boardRefresh(p2, 'two');
+    };
+    if (p2.type === 'computer' && whosTurn === 'two') {
+        whosTurn = obj.receiveAttack(Math.floor(Math.random()*10), Math.floor(Math.random()*10), whosTurn, p1);
+        obj.boardRefresh(p1, 'two');
+    };
+
     obj.cells.forEach((cell) => {
         if (!cell.id.includes(whosTurn)) {
-            cell.classList.add('unopened');
+            cell.classList.toggle('unopened');
         };
         cell.addEventListener('click', (e) => {
+            console.log('click');
             if (whosTurn && !e.target.id.includes(whosTurn)) {
-                if (whosTurn === 'one') {
+                if (whosTurn === 'one' && p1.type === 'human') {
                     whosTurn = obj.receiveAttack(cell.id[3], cell.id[4], whosTurn, p2);
                     obj.boardRefresh(p2, 'two');
-                } else {
+                } else if (whosTurn === 'two' && p2.type === 'human') {
                     whosTurn = obj.receiveAttack(cell.id[3], cell.id[4], whosTurn, p1);
                     obj.boardRefresh(p1, 'one');
                 };
+                //sequential computer moves logic
+                while (p1.type === 'computer' && whosTurn === 'one') {
+                    console.log('moved');
+                    whosTurn = obj.receiveAttack(Math.floor(Math.random()*10), Math.floor(Math.random()*10), whosTurn, p2);
+                    obj.boardRefresh(p2, 'two');
+                };
+                while (p2.type === 'computer' && whosTurn === 'two') {
+                    console.log('moved');
+                    whosTurn = obj.receiveAttack(Math.floor(Math.random()*10), Math.floor(Math.random()*10), whosTurn, p1);
+                    obj.boardRefresh(p1, 'one');
+                };
+                
                 if (!whosTurn) {
                     console.log('GAME OVER');
                     obj.start.textContent = 'AGAIN';
