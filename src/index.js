@@ -50,13 +50,21 @@ obj.start.addEventListener('click', () => {
     obj.boardP2.classList.add('activeBoard');
 
     //first computer move logic
-    
+    let availableComputerMoves = [];
+    for (let a = 0; a < 10; a++) {
+        for (let b = 0; b < 10; b++) {
+            availableComputerMoves.push(`${a}${b}`);
+        };
+    };
+        
     if (p1.type === 'computer' && whosTurn === 'one') {
-        whosTurn = obj.receiveAttack(Math.floor(Math.random()*10), Math.floor(Math.random()*10), whosTurn, p2);
+        let firstStrike = availableComputerMoves.splice(Math.floor(Math.random()*availableComputerMoves.length),1);
+        whosTurn = obj.receiveAttack(firstStrike[0][0], firstStrike[0][1], whosTurn, p2);
         obj.boardRefresh(p2, 'two');
     };
     if (p2.type === 'computer' && whosTurn === 'two') {
-        whosTurn = obj.receiveAttack(Math.floor(Math.random()*10), Math.floor(Math.random()*10), whosTurn, p1);
+        let firstStrike = availableComputerMoves.splice(Math.floor(Math.random()*availableComputerMoves.length),1);
+        whosTurn = obj.receiveAttack(firstStrike[0][0], firstStrike[0][1], whosTurn, p1);
         obj.boardRefresh(p1, 'two');
     };
 
@@ -76,13 +84,19 @@ obj.start.addEventListener('click', () => {
                 };
                 //sequential computer moves logic
                 while (p1.type === 'computer' && whosTurn === 'one') {
-                    console.log('moved');
-                    whosTurn = obj.receiveAttack(Math.floor(Math.random()*10), Math.floor(Math.random()*10), whosTurn, p2);
+                    let nextStrike = availableComputerMoves.splice(Math.floor(Math.random()*availableComputerMoves.length),1);
+                    while (p2.data.board[nextStrike[0][0]][nextStrike[0][1]] == 4) {
+                        nextStrike = availableComputerMoves.splice(Math.floor(Math.random()*availableComputerMoves.length),1);
+                    };
+                    whosTurn = obj.receiveAttack(nextStrike[0][0], nextStrike[0][1], whosTurn, p2);
                     obj.boardRefresh(p2, 'two');
                 };
                 while (p2.type === 'computer' && whosTurn === 'two') {
-                    console.log('moved');
-                    whosTurn = obj.receiveAttack(Math.floor(Math.random()*10), Math.floor(Math.random()*10), whosTurn, p1);
+                    let nextStrike = availableComputerMoves.splice(Math.floor(Math.random()*availableComputerMoves.length),1);
+                    while (p1.data.board[nextStrike[0][0]][nextStrike[0][1]] == 4) {
+                        nextStrike = availableComputerMoves.splice(Math.floor(Math.random()*availableComputerMoves.length),1);
+                    };
+                    whosTurn = obj.receiveAttack(nextStrike[0][0], nextStrike[0][1], whosTurn, p1);
                     obj.boardRefresh(p1, 'one');
                 };
                 
