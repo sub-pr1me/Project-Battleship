@@ -170,3 +170,9 @@ button:hover {
 .hidden {
 	background-color: #666666;
 }
+
+.activeBoard{
+	outline: none;
+    border-color: #9ecaed;
+    box-shadow: 0 0 10px #9ecaed;
+}

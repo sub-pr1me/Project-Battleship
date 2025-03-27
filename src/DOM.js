@@ -9,6 +9,8 @@ const obj = (function () {
         nameOne: document.getElementById('p1'),
         nameTwo: document.getElementById('p2'),
         cells: document.querySelectorAll('.cell'),
+        boardP1: document.getElementById('player1'),
+        boardP2: document.getElementById('player2'),
         
         boardRefresh: function (player, tag) {
             let board = player.data.board;
@@ -77,7 +79,9 @@ const obj = (function () {
         receiveAttack: function (x,y,attacker,victim) {
             let board = victim.data.board;
             if (board[x][y] === 0) {
-                board[x][y] = 3;                
+                board[x][y] = 3;
+                this.boardP1.classList.toggle('activeBoard');
+                this.boardP2.classList.toggle('activeBoard');
                 if (attacker === 'one') return 'two';
                 if (attacker === 'two') return 'one';
             } else if (board[x][y] === 1) {

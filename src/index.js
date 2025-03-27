@@ -9,7 +9,7 @@ let whosTurn = 'one';
 //start the game
     //  prompt players names & if human/bot (predetermined for now)
 obj.nameOne.textContent = 'PLAYER-1';
-obj.nameTwo.textContent = 'PLAYER-2';
+obj.nameTwo.textContent = 'COMPUTER';
 let p1type = 'human';
 let p2type = 'human';
     // create players boards
@@ -41,15 +41,14 @@ obj.start.addEventListener('click', () => {
     p2.data.addShip(1,0,0,0);
     p2.data.addShip(1,6,3,0);
 
-    obj.cells.forEach((cell) => {
-        if (!cell.id.includes(whosTurn)) {
-            cell.classList.add('unopened');
-        };
-    });
     obj.boardRefresh(p1, 'one');
+    obj.boardP2.classList.add('activeBoard');    
 });
 
 obj.cells.forEach((cell) => {
+    if (!cell.id.includes(whosTurn)) {
+        cell.classList.add('unopened');
+    };
     cell.addEventListener('click', (e) => {
         if (game && whosTurn && !e.target.id.includes(whosTurn)) {
             if (whosTurn === 'one') {
