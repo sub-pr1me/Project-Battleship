@@ -100,7 +100,7 @@ const obj = (function () {
             };
             this.revealAdjacent(x,y,victim);
             return attacker;
-        }
+        },
     };
 })();
 
