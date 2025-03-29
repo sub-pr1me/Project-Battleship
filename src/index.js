@@ -62,18 +62,12 @@ obj.start.addEventListener('click', () => {
         whosTurn = obj.receiveAttack(firstStrike[0][0], firstStrike[0][1], whosTurn, p2);
         obj.boardRefresh(p2, 'two');
     };
-    if (p2.type === 'computer' && whosTurn === 'two') {
-        let firstStrike = availableComputerMoves.splice(Math.floor(Math.random()*availableComputerMoves.length),1);
-        whosTurn = obj.receiveAttack(firstStrike[0][0], firstStrike[0][1], whosTurn, p1);
-        obj.boardRefresh(p1, 'two');
-    };
-
+    
     obj.cells.forEach((cell) => {
         if (!cell.id.includes(whosTurn)) {
             cell.classList.toggle('unopened');
         };
         cell.addEventListener('click', (e) => {
-            console.log('click');
             if (whosTurn && !e.target.id.includes(whosTurn)) {
                 if (whosTurn === 'one' && p1.type === 'human') {
                     whosTurn = obj.receiveAttack(cell.id[3], cell.id[4], whosTurn, p2);
@@ -83,6 +77,7 @@ obj.start.addEventListener('click', () => {
                     obj.boardRefresh(p1, 'one');
                 };
                 //sequential computer moves logic
+                setTimeout(() => {
                 while (p1.type === 'computer' && whosTurn === 'one') {
                     let nextStrike = availableComputerMoves.splice(Math.floor(Math.random()*availableComputerMoves.length),1);
                     while (p2.data.board[nextStrike[0][0]][nextStrike[0][1]] == 4) {
@@ -91,22 +86,27 @@ obj.start.addEventListener('click', () => {
                     whosTurn = obj.receiveAttack(nextStrike[0][0], nextStrike[0][1], whosTurn, p2);
                     obj.boardRefresh(p2, 'two');
                 };
-                while (p2.type === 'computer' && whosTurn === 'two') {
-                    let nextStrike = availableComputerMoves.splice(Math.floor(Math.random()*availableComputerMoves.length),1);
-                    while (p1.data.board[nextStrike[0][0]][nextStrike[0][1]] == 4) {
-                        nextStrike = availableComputerMoves.splice(Math.floor(Math.random()*availableComputerMoves.length),1);
-                    };
-                    whosTurn = obj.receiveAttack(nextStrike[0][0], nextStrike[0][1], whosTurn, p1);
-                    obj.boardRefresh(p1, 'one');
-                };
+                }, 700);
+                setTimeout(() => {
+                    while (p2.type === 'computer' && whosTurn === 'two') {
+                        let nextStrike = availableComputerMoves.splice(Math.floor(Math.random()*availableComputerMoves.length),1);
+                        while (p1.data.board[nextStrike[0][0]][nextStrike[0][1]] == 4) {
+                            nextStrike = availableComputerMoves.splice(Math.floor(Math.random()*availableComputerMoves.length),1);
+                        };
+                        whosTurn = obj.receiveAttack(nextStrike[0][0], nextStrike[0][1], whosTurn, p1);
+                        obj.boardRefresh(p1, 'one');
+                    };     
+                }, 700);
                 
-                if (!whosTurn) {
-                    console.log('GAME OVER');
-                    obj.start.textContent = 'AGAIN';
-                    obj.btnDiv.appendChild(obj.start);
-                    obj.boardP1.classList.remove('activeBoard');
-                    obj.boardP2.classList.remove('activeBoard');
-                };
+                setTimeout(() => {
+                    if (!whosTurn) {
+                        console.log('GAME OVER');
+                        obj.start.textContent = 'AGAIN';
+                        obj.btnDiv.appendChild(obj.start);
+                        obj.boardP1.classList.remove('activeBoard');
+                        obj.boardP2.classList.remove('activeBoard');
+                    };    
+                }, 710);                
             };
         });
     });

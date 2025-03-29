@@ -83,7 +83,9 @@ const obj = (function () {
                 for (let item of this.cells) {
                     if (!item.classList.contains('hit')
                     && !item.classList.contains('miss')
-                    && !item.classList.contains('empty')) {
+                    && !item.classList.contains('empty')
+                    && victim.type === 'human'
+                    && attacker.type === 'human') {
                         item.classList.toggle('unopened');
                     };
                 };
