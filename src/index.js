@@ -106,7 +106,7 @@ obj.start.addEventListener('click', () => {
                         obj.boardP1.classList.remove('activeBoard');
                         obj.boardP2.classList.remove('activeBoard');
                     };    
-                }, 710);                
+                }, 800);
             };
         });
     });
