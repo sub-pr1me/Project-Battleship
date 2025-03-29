@@ -22,6 +22,21 @@ function Gameboard(name) {
         };
     };
 
+    function placeRandomShips() {
+        while (fleet.length < 1) {
+            addShip(4,Math.floor(Math.random()*10),Math.floor(Math.random()*10),Math.floor(Math.random()*2));
+        };
+        while (fleet.length < 3) {
+            addShip(3,Math.floor(Math.random()*10),Math.floor(Math.random()*10),Math.floor(Math.random()*2));
+        };
+        while (fleet.length < 6) {
+            addShip(2,Math.floor(Math.random()*10),Math.floor(Math.random()*10),Math.floor(Math.random()*2));
+        };
+        while (fleet.length < 10) {
+            addShip(1,Math.floor(Math.random()*10),Math.floor(Math.random()*10),Math.floor(Math.random()*2));
+        };
+    };
+
     function determineLimits(x,y) {
         let limits = {};
         if (x === 0) {limits.left = true};
@@ -51,7 +66,6 @@ function Gameboard(name) {
                 || board[x-1][y-1] === 1
                 || board[x][y+1] === 1
                 || board[x][y-1] === 1) {
-                console.log(board[x-1][y]);
                 return false;
             };
         };
@@ -117,40 +131,23 @@ function Gameboard(name) {
     };
 
     function addShip(size,x,y,orientation) { //orientation: 0-horizontal, 1-vertical
-
         let ship = [];
         let coordinates = [];
         ship.push(Ship(size));
 
         let valid = 0;
         if (!orientation && x+size <= 10) {
-            if (checkPlacementValidity(x,y)) {
-                valid++;
-            } else {
-                console.log(`CAN'T PLACE SHIP ON ${x}x${y}`);
-            };
+            if (checkPlacementValidity(x,y)) valid++;
             for (let i=1; i<size; i++) {
-                if (checkPlacementValidity(x+i,y)) {
-                    valid++;
-                } else {
-                    console.log(`CAN'T PLACE SHIP ON ${x+i}x${y}`);
-                };
+                if (checkPlacementValidity(x+i,y)) valid++;
             };  
         } else if (orientation && y+size <= 10) {
-            if (checkPlacementValidity(x,y)) {
-                valid++;
-            } else {
-                console.log(`CAN'T PLACE SHIP ON ${x}x${y}`);
-            };
+            if (checkPlacementValidity(x,y)) valid++;
             for (let i=1; i<size; i++) {
-                if (checkPlacementValidity(x,y+i)) {
-                    valid++;
-                } else {
-                    console.log(`CAN'T PLACE SHIP ON ${x}x${y+i}`);
-                };
-            };  
+                if (checkPlacementValidity(x,y+i)) valid++;
+            };
         };
-        if (valid === size) {
+        if (valid && valid === size) {
             if (!orientation) {
                 board[x][y] = 1;
                 let coorString = `${x}${y}`;
@@ -171,8 +168,10 @@ function Gameboard(name) {
                 };
             };
         };
-        ship.push(coordinates);
-        fleet.push(ship);
+        if (valid && valid === size) {
+            ship.push(coordinates);
+            fleet.push(ship);
+        };        
     };
 
     function checkIfAllSunk() {
@@ -193,6 +192,7 @@ function Gameboard(name) {
         fleet,
         board,
         name,
+        placeRandomShips,
         addShip,
         checkIfAllSunk
     };

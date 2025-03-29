@@ -23,29 +23,9 @@ obj.start.addEventListener('click', () => {
     let p1 = Player(obj.nameOne.textContent, p1type);
     let p2 = Player(obj.nameTwo.textContent, p2type);
     obj.btnDiv.removeChild(obj.start);
-    //  place ships
-    p1.data.addShip(4,1,1,1);
-    p1.data.addShip(3,5,5,0);
-    p1.data.addShip(3,3,6,1);
-    p1.data.addShip(2,7,2,0);
-    p1.data.addShip(2,0,6,0);
-    p1.data.addShip(2,5,8,1);
-    p1.data.addShip(1,0,9,0);
-    p1.data.addShip(1,8,8,0);
-    p1.data.addShip(1,5,0,0);
-    p1.data.addShip(1,4,2,0);
-
-    p2.data.addShip(4,8,1,1);
-    p2.data.addShip(3,2,4,0);
-    p2.data.addShip(3,1,7,0);
-    p2.data.addShip(2,4,0,1);
-    p2.data.addShip(2,1,2,0);
-    p2.data.addShip(2,5,8,1);
-    p2.data.addShip(1,5,6,0);
-    p2.data.addShip(1,7,7,0);
-    p2.data.addShip(1,0,0,0);
-    p2.data.addShip(1,6,3,0);
-
+        //  place ships
+    p1.data.placeRandomShips();
+    p2.data.placeRandomShips();
     obj.boardRefresh(p1, 'one');
     obj.boardP2.classList.add('activeBoard');
 
