@@ -76,19 +76,19 @@ const obj = (function () {
             };
         },
 
-        receiveAttack: function (x,y,attacker,victim) {
+        receiveAttack: function (x,y,attacker, attacker_type, victim) {
             let board = victim.data.board;
             if (board[x][y] === 0) {
                 board[x][y] = 3;
-                for (let item of this.cells) {
-                    if (!item.classList.contains('hit')
-                    && !item.classList.contains('miss')
-                    && !item.classList.contains('empty')
-                    && victim.type === 'human'
-                    && attacker.type === 'human') {
-                        item.classList.toggle('unopened');
+                if (attacker_type !== 'computer' && victim.type !== 'computer') {
+                    for (let item of this.cells) {
+                        if (!item.classList.contains('hit')
+                        && !item.classList.contains('miss')
+                        && !item.classList.contains('empty')) {
+                            item.classList.toggle('unopened');
+                        };
                     };
-                };
+                };                
                 this.boardP1.classList.toggle('activeBoard');
                 this.boardP2.classList.toggle('activeBoard');
                 if (attacker === 'one') return 'two';

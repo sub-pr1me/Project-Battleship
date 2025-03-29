@@ -1,4 +1,3 @@
-import { obj } from "./DOM.js";
 
 function Ship(length) {
     return {
