@@ -11,6 +11,7 @@ const obj = (function () {
         cells: document.querySelectorAll('.cell'),
         boardP1: document.getElementById('player1'),
         boardP2: document.getElementById('player2'),
+        boardZone: document.getElementById('boardzone'),
         
         boardRefresh: function (player, tag) {
             let board = player.data.board;
@@ -79,8 +80,15 @@ const obj = (function () {
         receiveAttack: function (x,y,attacker, attacker_type, victim) {
             let board = victim.data.board;
             if (board[x][y] === 0) {
-                board[x][y] = 3;
+                board[x][y] = 3;                
                 if (attacker_type !== 'computer' && victim.type !== 'computer') {
+                    let passDevice = document.createElement('div');
+                    passDevice.classList.add('passDevice');
+                    passDevice.textContent = 'PASS DEVICE TO YOUR OPPONENT!';
+                    this.boardZone.appendChild(passDevice);
+                    setTimeout(() => {
+                        this.boardZone.removeChild(passDevice);
+                    }, 2000);
                     for (let item of this.cells) {
                         if (!item.classList.contains('hit')
                         && !item.classList.contains('miss')

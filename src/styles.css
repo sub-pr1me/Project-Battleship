@@ -176,3 +176,12 @@ button:hover {
     border-color: #e09eed;
     box-shadow: 0 0 20px #e09eed;
 }
+
+.passDevice{
+	width: 100vw;
+	min-height: 420px;
+	max-height: 420px;
+	background-color: rgb(42, 22, 70);
+	position: absolute;
+	font-size: 36px;
+}
